@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BongoFury", "BongoFury\BongoFury.csproj", "{17C86756-E0D2-4EF8-BD84-A9559AFFCAA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BongoFury", "BongoFury\BongoFury.csproj", "{17C86756-E0D2-4EF8-BD84-A9559AFFCAA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelEditor", "LevelEditor\LevelEditor.csproj", "{CAC91B64-CF0D-490A-868C-83DAEC4475CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{17C86756-E0D2-4EF8-BD84-A9559AFFCAA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C86756-E0D2-4EF8-BD84-A9559AFFCAA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C86756-E0D2-4EF8-BD84-A9559AFFCAA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC91B64-CF0D-490A-868C-83DAEC4475CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC91B64-CF0D-490A-868C-83DAEC4475CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC91B64-CF0D-490A-868C-83DAEC4475CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC91B64-CF0D-490A-868C-83DAEC4475CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

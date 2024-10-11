@@ -49,6 +49,13 @@
 /processorParam:TextureFormat=Color
 /build:CrackedBrickTex.png
 
+#begin DebugFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:DebugFont.spritefont
+
 #begin HeavyBlockTex.png
 /importer:TextureImporter
 /processor:TextureProcessor
