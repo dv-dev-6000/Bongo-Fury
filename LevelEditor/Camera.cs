@@ -43,11 +43,11 @@ namespace LevelEditor
                 Position = new Vector2(Position.X + 5, Position.Y);
             }
 
-            if (kbState.IsKeyDown(Keys.Down))
+            if (kbState.IsKeyDown(Keys.Down) || kbState.IsKeyDown(Keys.Q))
             {
                 Zoom = Zoom - 0.01f;
             }
-            if (kbState.IsKeyDown(Keys.Up))
+            if (kbState.IsKeyDown(Keys.Up) || kbState.IsKeyDown(Keys.E))
             {
                 Zoom = Zoom + 0.01f;
             }

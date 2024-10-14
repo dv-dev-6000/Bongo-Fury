@@ -17,6 +17,7 @@ namespace LevelEditor
         Camera _camera = new Camera();
         KeyboardState kbState, kbState_Old;
         MouseState currMouse, oldMouse;
+        Vector2 relativeMousePos;
 
         Texture2D basicBlockTex, heavyBlockTex, brickBlockTex, brokenBlockTex, spikeTex;
         public static SpriteFont debugFont;
@@ -75,6 +76,8 @@ namespace LevelEditor
             // update controllers
             kbState = Keyboard.GetState();
             currMouse = Mouse.GetState();
+            
+            relativeMousePos = Vector2.Transform(new Vector2 (currMouse.Position.X, currMouse.Position.Y), Matrix.Invert(_camera.Transform));
 
             // update camera
             _camera.Update(kbState, kbState_Old);
@@ -84,7 +87,7 @@ namespace LevelEditor
             {
                 foreach (var tile in tiles)
                 {
-                    if (tile.CollisionRect.Contains(currMouse.Position))
+                    if (tile.CollisionRect.Contains(relativeMousePos))
                     {
                         tile.Assign(brickBlockTex);
                     }
