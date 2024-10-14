@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 
 namespace LevelEditor
@@ -19,8 +20,10 @@ namespace LevelEditor
         MouseState currMouse, oldMouse;
         Vector2 relativeMousePos;
 
-        Texture2D basicBlockTex, heavyBlockTex, brickBlockTex, brokenBlockTex, spikeTex;
+        Texture2D basicBlockTex, heavyBlockTex, brickBlockTex, brokenBlockTex, spikeTex, singlePixTex;
         public static SpriteFont debugFont;
+
+        UserInterface _userInterface;
 
         List<Tile> tiles;
 
@@ -30,10 +33,10 @@ namespace LevelEditor
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            _graphics.PreferredBackBufferWidth = 1800;       // 
-            _graphics.PreferredBackBufferHeight = 900;      //
-            //_graphics.IsFullScreen = true;                   //set screen dimensions and set full screen
-            //_graphics.HardwareModeSwitch = false;            //set screen dimensions and set full screen
+            _graphics.PreferredBackBufferWidth = 1920;       // 
+            _graphics.PreferredBackBufferHeight = 1080;      //
+            _graphics.IsFullScreen = true;                   //set screen dimensions and set full screen
+            _graphics.HardwareModeSwitch = false;            //set screen dimensions and set full screen
         }
 
         protected override void Initialize()
@@ -48,6 +51,7 @@ namespace LevelEditor
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             debugFont = Content.Load<SpriteFont>("DebugFont");
+            singlePixTex = Content.Load<Texture2D>("SinglePix");
             basicBlockTex = Content.Load<Texture2D>("BasicBlockTex");
             heavyBlockTex = Content.Load<Texture2D>("HeavyBlockTex");
             brickBlockTex = Content.Load<Texture2D>("BrickBlockTex");
@@ -55,6 +59,7 @@ namespace LevelEditor
             spikeTex = Content.Load<Texture2D>("SpikeTex");
 
             LoadBuildGrid(25, 25);
+            _userInterface = new UserInterface(singlePixTex, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
         }
 
         void LoadBuildGrid(int width, int Height)
@@ -106,13 +111,20 @@ namespace LevelEditor
         {
             GraphicsDevice.Clear(Color.Black);
 
+            // world spritebatch
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
 
             foreach (var tile in tiles)
             {
                 tile.Draw(_spriteBatch);
             }
+            
 
+            _spriteBatch.End();
+
+            // UI Spritebatch
+            _spriteBatch.Begin();
+            _userInterface.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
