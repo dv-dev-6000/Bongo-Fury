@@ -16,6 +16,7 @@ namespace LevelEditor
     {
         // Vars
         public Rectangle CollisionRect { get; set; }
+        public bool Assigned { get; set; }
         Rectangle _drawRect;
         Texture2D _tex;
         //Vector2 _gridPos;
@@ -25,6 +26,7 @@ namespace LevelEditor
         // Constructor
         public Tile(Texture2D tex, Vector2 position)
         {
+            Assigned = false;
             _tex = tex;
             _actualPos = position;
             _colour = Color.Red * 0.5f;
@@ -37,6 +39,7 @@ namespace LevelEditor
         {
             _tex = newTex;
             _colour = Color.White;
+            Assigned = true;
         }
 
         public void Update() 

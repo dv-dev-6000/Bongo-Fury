@@ -16,17 +16,15 @@ namespace LevelEditor
         private SpriteBatch _spriteBatch;
 
         public static int TILE_SIZE = 64;
+        public static bool _paintMode, _hideGrid;
 
         Camera _camera = new Camera();
         KeyboardState kbState, kbState_Old;
         MouseState currMouse, oldMouse;
         Vector2 relativeMousePos;
-        bool _paintMode;
 
         Dictionary<string, Texture2D> _textureLibrary;
-        //Texture2D basicBlockTex, heavyBlockTex, brickBlockTex, brokenBlockTex, spikeTex;
-        //Texture2D hideArrowsTex, closeButtonTex;
-        Texture2D selectedTex, singlePixTex;
+        Texture2D singlePixTex;
         public static SpriteFont debugFont;
 
         UserInterface _userInterface;
@@ -50,7 +48,7 @@ namespace LevelEditor
             _tiles = new List<Tile>();
             _textureLibrary = new Dictionary<string, Texture2D>();
             _paintMode = false;
-            selectedTex = null;
+            _hideGrid = false;
 
             base.Initialize();
         }
@@ -61,13 +59,6 @@ namespace LevelEditor
 
             debugFont = Content.Load<SpriteFont>("DebugFont");
             singlePixTex = Content.Load<Texture2D>("SinglePix");
-            //basicBlockTex = Content.Load<Texture2D>("BasicBlockTex");
-            //heavyBlockTex = Content.Load<Texture2D>("HeavyBlockTex");
-            //brickBlockTex = Content.Load<Texture2D>("BrickBlockTex");
-            //brokenBlockTex = Content.Load<Texture2D>("CrackedBrickTex");
-            //spikeTex = Content.Load<Texture2D>("SpikeTex");
-            //hideArrowsTex = Content.Load<Texture2D>("ArrowsTex");
-            //closeButtonTex = Content.Load<Texture2D>("ExitTex");
 
             _textureLibrary.Add("BasicBlock", Content.Load<Texture2D>("BasicBlockTex"));
             _textureLibrary.Add("HeavyBlock", Content.Load<Texture2D>("HeavyBlockTex"));
@@ -79,7 +70,6 @@ namespace LevelEditor
 
             LoadBuildGrid(30, 25);
             _userInterface = new UserInterface(singlePixTex, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight, _textureLibrary);
-            _textureLibrary.TryGetValue("BrickBlock", out selectedTex);
         }
 
         void LoadBuildGrid(int width, int Height)
@@ -99,7 +89,7 @@ namespace LevelEditor
             {
                 if (tile.CollisionRect.Contains(relativeMousePos))
                 {
-                    tile.Assign(selectedTex);
+                    tile.Assign(_userInterface.SelectedTex); 
                 }
             }
         }
@@ -117,13 +107,41 @@ namespace LevelEditor
             // update camera
             _camera.Update(kbState, kbState_Old);
 
+            // toggles
+            if (kbState.IsKeyDown(Keys.D1) && kbState_Old.IsKeyUp(Keys.D1))
+            {
+                if (_paintMode)
+                {
+                    _paintMode = false;
+                }
+                else
+                {
+                    _paintMode = true;
+                }
+            }
+            if (kbState.IsKeyDown(Keys.D2) && kbState_Old.IsKeyUp(Keys.D2))
+            {
+                if (_hideGrid)
+                {
+                    _hideGrid = false;
+                }
+                else
+                {
+                    _hideGrid = true;
+                }
+            }
+
             // check for mouse click
             if (currMouse.LeftButton == ButtonState.Pressed)
             {
                 // check UI or Level (screen or game co-ords)
                 if (_userInterface.BackgroundRect.Contains(currMouse.Position))
                 {
-                    
+                    if (!_userInterface.Update(currMouse.Position))
+                    {
+                        // exit program without warning, ADD WARNING!
+                        Exit();
+                    }
                 }
                 else 
                 {
@@ -154,11 +172,21 @@ namespace LevelEditor
             // world spritebatch
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
 
+            // draw tiles dependant on toggle
             foreach (var tile in _tiles)
             {
-                tile.Draw(_spriteBatch);
+                if (!_hideGrid)
+                {
+                    tile.Draw(_spriteBatch);
+                }
+                else
+                {
+                    if (tile.Assigned)
+                    {
+                        tile.Draw(_spriteBatch);
+                    }
+                }
             }
-            
 
             _spriteBatch.End();
 
