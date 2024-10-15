@@ -14,15 +14,15 @@ namespace LevelEditor
     public class UserInterface
     {
         // Vars
-        Rectangle _rect;
-        Texture2D _tex;
+        public Rectangle BackgroundRect { get; }
+        Texture2D _pixelTex;
 
 
         // Constructor
-        public UserInterface(Texture2D tex, int screenWidth, int screenHeight)
+        public UserInterface(Texture2D pixelTex, int screenWidth, int screenHeight, Dictionary<string, Texture2D> uiTextures)
         {
-            _tex = tex;
-            _rect = new Rectangle(screenWidth - screenWidth/5, 0, screenWidth/5, screenHeight);
+            _pixelTex = pixelTex;
+            BackgroundRect = new Rectangle(screenWidth - screenWidth/5, 0, screenWidth/5, screenHeight);
         }
 
         public void Update()
@@ -32,7 +32,7 @@ namespace LevelEditor
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(_tex, _rect, Color.DimGray * 0.85f);
+            sb.Draw(_pixelTex, BackgroundRect, Color.DimGray * 0.85f);
         }
     }
 }

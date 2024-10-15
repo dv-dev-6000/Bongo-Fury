@@ -16,6 +16,7 @@ namespace LevelEditor
     {
         // Vars
         public Rectangle CollisionRect { get; set; }
+        Rectangle _drawRect;
         Texture2D _tex;
         //Vector2 _gridPos;
         Vector2 _actualPos;
@@ -28,7 +29,8 @@ namespace LevelEditor
             _actualPos = position;
             _colour = Color.Red * 0.5f;
 
-            CollisionRect = new Rectangle((int)_actualPos.X, (int)_actualPos.Y, _tex.Width, _tex.Height);
+            CollisionRect = new Rectangle((int)_actualPos.X, (int)_actualPos.Y, Game1.TILE_SIZE, Game1.TILE_SIZE);
+            _drawRect = new Rectangle((int)_actualPos.X + 1, (int)_actualPos.Y + 1, Game1.TILE_SIZE -2, Game1.TILE_SIZE -2);
         }
 
         public void Assign(Texture2D newTex)
@@ -44,7 +46,7 @@ namespace LevelEditor
 
         public void Draw(SpriteBatch sb) 
         {
-            sb.Draw(_tex, _actualPos, _colour);
+            sb.Draw(_tex,_drawRect, _colour);
         }
 
     }
