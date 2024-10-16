@@ -14,10 +14,10 @@ namespace LevelEditor
     public class UserInterface
     {
         // Vars
-        private Texture2D _pixelTex, _selectedTex, _exitTex, _hideTex;
+        private Texture2D _pixelTex, _selectedTex, _exitTex, _hideTex, _exportTex;
         private Dictionary<string, Texture2D> _textureLib;
         private List<Rectangle> tileButtons;
-        private Rectangle _exitButton, _hideButton, _backgroundRect;
+        private Rectangle _exitButton, _hideButton, _exportButton, _backgroundRect;
         private bool _isHidden;
         private int _screenWidth, _screenHeight;
 
@@ -43,6 +43,7 @@ namespace LevelEditor
             _screenHeight = screenHeight;
             textures.TryGetValue("ExitButton", out _exitTex);
             textures.TryGetValue("HideArrows", out _hideTex);
+            textures.TryGetValue("ExportButton", out _exportTex);
             textures.TryGetValue("BasicBlock", out _selectedTex);
             _backgroundRect = new Rectangle(_screenWidth - _screenWidth/5, 0, _screenWidth/5, _screenHeight);
             ButtonSetUp();
@@ -53,6 +54,7 @@ namespace LevelEditor
             tileButtons = new List<Rectangle>();
             _exitButton = new Rectangle(BackgroundRect.Center.X - 16, BackgroundRect.Bottom - 50, 32, 32 );
             _hideButton = new Rectangle(BackgroundRect.Left, BackgroundRect.Top, 32, 32);
+            _exportButton = new Rectangle(BackgroundRect.Center.X - (_exportTex.Width / 2), BackgroundRect.Bottom - (100 + _exportTex.Height), _exportTex.Width, _exportTex.Height);
 
             for (int i = 0; i < 4; i++) 
             {
@@ -111,6 +113,7 @@ namespace LevelEditor
             if (!_isHidden) 
             {
                 sb.Draw(_exitTex, _exitButton, Color.White);
+                sb.Draw(_exportTex, _exportButton, Color.White);
                 for (int i = 0; i < 8; i++)
                 {
                     sb.Draw(_pixelTex, tileButtons[i], Color.LightGray * 0.7f);
