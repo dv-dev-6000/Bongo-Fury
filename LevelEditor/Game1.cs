@@ -69,6 +69,10 @@ namespace LevelEditor
             _textureLibrary.Add("SpikeBlockUp", Content.Load<Texture2D>("SpikeTexUp"));
             _textureLibrary.Add("SpikeBlockL", Content.Load<Texture2D>("SpikeTexL"));
             _textureLibrary.Add("SpikeBlockR", Content.Load<Texture2D>("SpikeTexR"));
+            _textureLibrary.Add("PlayerStart", Content.Load<Texture2D>("PlayerStartTex"));
+            _textureLibrary.Add("Misc1", Content.Load<Texture2D>("Misc1Tex"));
+            _textureLibrary.Add("Misc2", Content.Load<Texture2D>("Misc2Tex"));
+            _textureLibrary.Add("Misc3", Content.Load<Texture2D>("Misc3Tex"));
             _textureLibrary.Add("HideArrows", Content.Load<Texture2D>("ArrowsTex"));
             _textureLibrary.Add("ExitButton", Content.Load<Texture2D>("ExitTex"));
             _textureLibrary.Add("ExportButton", Content.Load<Texture2D>("ExportTex"));

@@ -65,6 +65,11 @@ namespace LevelEditor
             {
                 tileButtons.Add(new Rectangle(BackgroundRect.Left + 50 + Game1.TILE_SIZE, (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
             }
+
+            for (int i = 0; i < 4; i++)
+            {
+                tileButtons.Add(new Rectangle(BackgroundRect.Left + 75 + (Game1.TILE_SIZE*2), (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
+            }
         }
 
         private void HideButtonPressed()
@@ -114,7 +119,7 @@ namespace LevelEditor
             {
                 sb.Draw(_exitTex, _exitButton, Color.White);
                 sb.Draw(_exportTex, _exportButton, Color.White);
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 12; i++)
                 {
                     sb.Draw(_pixelTex, tileButtons[i], Color.LightGray * 0.7f);
                     if (SelectedTex == _textureLib.Values.ElementAt(i))
