@@ -28,7 +28,7 @@ namespace LevelEditor
         // Constructor
         public Tile(Texture2D tex, Vector2 position)
         {
-            Assigned = false;
+            Assigned = false; // CAN PROBABLY REMOVE (was used to toggle hide grid before ID)
             ID = -1;
             _tex = tex;
             _actualPos = position;
@@ -41,9 +41,17 @@ namespace LevelEditor
         public void Assign(Texture2D newTex, int id)
         {
             _tex = newTex;
-            _colour = Color.White;
             Assigned = true;
             ID = id;
+
+            if (id >= 0)
+            {
+                _colour = Color.White;
+            }
+            else
+            {
+                _colour = Color.Red * 0.5f;
+            }
         }
 
         public void Update() 

@@ -35,7 +35,7 @@ namespace LevelEditor
         // Constructor
         public UserInterface(Texture2D pixelTex, int screenWidth, int screenHeight, Dictionary<string, Texture2D> textures)
         {
-            CurrID = -1;
+            CurrID = 0;
             _isHidden = false;
             _textureLib = textures;
             _pixelTex = pixelTex;

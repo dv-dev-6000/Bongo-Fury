@@ -88,13 +88,19 @@ namespace LevelEditor
             }
         }
 
-        void AssignTile()
+        void AssignTile(bool deleteTile)
         {
             foreach (var tile in _tiles)
             {
                 if (tile.CollisionRect.Contains(relativeMousePos))
                 {
-                    tile.Assign(_userInterface.SelectedTex, _userInterface.CurrID); 
+                    if (!deleteTile)
+                    {
+                        tile.Assign(_userInterface.SelectedTex, _userInterface.CurrID);
+                    }
+                    else {
+                        tile.Assign(singlePixTex, -1);
+                    }
                 }
             }
         }
@@ -152,14 +158,26 @@ namespace LevelEditor
                 {
                     if (_paintMode)
                     {
-                        AssignTile();
+                        AssignTile(false);
                     }
                     else if (oldMouse.LeftButton == ButtonState.Released)
                     {
-                        AssignTile();
+                        AssignTile(false);
                     }
                 }
 
+            }
+
+            if (currMouse.RightButton == ButtonState.Pressed)
+            {
+                if (_paintMode)
+                {
+                    AssignTile(true);
+                }
+                else if (oldMouse.LeftButton == ButtonState.Released)
+                {
+                    AssignTile(true);
+                }
             }
 
 
@@ -186,7 +204,7 @@ namespace LevelEditor
                 }
                 else
                 {
-                    if (tile.Assigned)
+                    if (tile.ID > -1)
                     {
                         tile.Draw(_spriteBatch);
                     }
