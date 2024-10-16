@@ -22,6 +22,7 @@ namespace LevelEditor
         private int _screenWidth, _screenHeight;
 
         // Accessors
+        public int CurrID { get; set; }
         public Texture2D SelectedTex
         {
             get { return _selectedTex; }
@@ -34,6 +35,7 @@ namespace LevelEditor
         // Constructor
         public UserInterface(Texture2D pixelTex, int screenWidth, int screenHeight, Dictionary<string, Texture2D> textures)
         {
+            CurrID = -1;
             _isHidden = false;
             _textureLib = textures;
             _pixelTex = pixelTex;
@@ -52,9 +54,14 @@ namespace LevelEditor
             _exitButton = new Rectangle(BackgroundRect.Center.X - 16, BackgroundRect.Bottom - 50, 32, 32 );
             _hideButton = new Rectangle(BackgroundRect.Left, BackgroundRect.Top, 32, 32);
 
-            for (int i = 0; i < 5; i++) 
+            for (int i = 0; i < 4; i++) 
             {
                 tileButtons.Add(new Rectangle(BackgroundRect.Left + 25, (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                tileButtons.Add(new Rectangle(BackgroundRect.Left + 50 + Game1.TILE_SIZE, (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
             }
         }
 
@@ -89,6 +96,7 @@ namespace LevelEditor
                 if (tileButtons[i].Contains(mousePos))
                 {
                     _selectedTex = _textureLib.Values.ElementAt(i);
+                    CurrID = i;
                 }
             }
 
@@ -97,14 +105,15 @@ namespace LevelEditor
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(_pixelTex, BackgroundRect, Color.DimGray * 0.85f);
+            sb.Draw(_pixelTex, BackgroundRect, Color.DimGray * 0.95f);
             sb.Draw(_hideTex, _hideButton, Color.White);
 
             if (!_isHidden) 
             {
                 sb.Draw(_exitTex, _exitButton, Color.White);
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 8; i++)
                 {
+                    sb.Draw(_pixelTex, tileButtons[i], Color.LightGray * 0.7f);
                     if (SelectedTex == _textureLib.Values.ElementAt(i))
                     {
                         sb.Draw(_textureLib.Values.ElementAt(i), tileButtons[i], Color.Green);
@@ -115,6 +124,29 @@ namespace LevelEditor
                     }
                     
                 }
+
+                //UI Text
+                sb.DrawString(Game1.debugFont, "W,A,S,D to move camera", new Vector2(BackgroundRect.Left + 25, BackgroundRect.Top + 150), Color.White);
+                sb.DrawString(Game1.debugFont, "Q,E to Zoom in and out", new Vector2(BackgroundRect.Left + 25, BackgroundRect.Top + 200), Color.White);
+
+                if (!Game1._paintMode)
+                {
+                    sb.DrawString(Game1.debugFont, "* '1' to Activate Paint Mode", new Vector2(BackgroundRect.Left + 25, BackgroundRect.Top + 50), Color.Orange);
+                }
+                else
+                {
+                    sb.DrawString(Game1.debugFont, "* '1' to Activate Paint Mode", new Vector2(BackgroundRect.Left + 25, BackgroundRect.Top + 50), Color.GreenYellow);
+                }
+
+                if (!Game1._hideGrid)
+                {
+                    sb.DrawString(Game1.debugFont, "* '2' to Deactivate Grid", new Vector2(BackgroundRect.Left + 25, BackgroundRect.Top + 100), Color.Orange);
+                }
+                else
+                {
+                    sb.DrawString(Game1.debugFont, "* '2' to Deactivate Grid", new Vector2(BackgroundRect.Left + 25, BackgroundRect.Top + 100), Color.GreenYellow);
+                }
+
             }
             
         }

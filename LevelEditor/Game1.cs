@@ -17,6 +17,7 @@ namespace LevelEditor
 
         public static int TILE_SIZE = 64;
         public static bool _paintMode, _hideGrid;
+        public static SpriteFont debugFont;
 
         Camera _camera = new Camera();
         KeyboardState kbState, kbState_Old;
@@ -25,7 +26,7 @@ namespace LevelEditor
 
         Dictionary<string, Texture2D> _textureLibrary;
         Texture2D singlePixTex;
-        public static SpriteFont debugFont;
+        
 
         UserInterface _userInterface;
 
@@ -65,8 +66,12 @@ namespace LevelEditor
             _textureLibrary.Add("BrickBlock", Content.Load<Texture2D>("BrickBlockTex"));
             _textureLibrary.Add("CrackBlock", Content.Load<Texture2D>("CrackedBrickTex"));
             _textureLibrary.Add("SpikeBlock", Content.Load<Texture2D>("SpikeTex"));
+            _textureLibrary.Add("SpikeBlockUp", Content.Load<Texture2D>("SpikeTexUp"));
+            _textureLibrary.Add("SpikeBlockL", Content.Load<Texture2D>("SpikeTexL"));
+            _textureLibrary.Add("SpikeBlockR", Content.Load<Texture2D>("SpikeTexR"));
             _textureLibrary.Add("HideArrows", Content.Load<Texture2D>("ArrowsTex"));
             _textureLibrary.Add("ExitButton", Content.Load<Texture2D>("ExitTex"));
+            _textureLibrary.Add("ExportButton", Content.Load<Texture2D>("ExportTex"));
 
             LoadBuildGrid(30, 25);
             _userInterface = new UserInterface(singlePixTex, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight, _textureLibrary);
@@ -89,7 +94,7 @@ namespace LevelEditor
             {
                 if (tile.CollisionRect.Contains(relativeMousePos))
                 {
-                    tile.Assign(_userInterface.SelectedTex); 
+                    tile.Assign(_userInterface.SelectedTex, _userInterface.CurrID); 
                 }
             }
         }
