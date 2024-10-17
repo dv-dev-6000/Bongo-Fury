@@ -15,7 +15,7 @@ namespace LevelEditor
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public static int TILE_SIZE = 64;
+        public static int TILE_SIZE = 64, GRID_X = 30, GRID_Y = 25;
         public static bool _paintMode, _hideGrid;
         public static SpriteFont debugFont;
 
@@ -150,9 +150,9 @@ namespace LevelEditor
             if (currMouse.LeftButton == ButtonState.Pressed)
             {
                 // check UI or Level (screen or game co-ords)
-                if (_userInterface.BackgroundRect.Contains(currMouse.Position))
+                if (_userInterface.BackgroundRect.Contains(currMouse.Position) && oldMouse.LeftButton == ButtonState.Released)
                 {
-                    if (!_userInterface.Update(currMouse.Position))
+                    if (!_userInterface.Update(currMouse.Position, _tiles))
                     {
                         // exit program without warning, ADD WARNING!
                         Exit();

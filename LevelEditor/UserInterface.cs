@@ -20,6 +20,7 @@ namespace LevelEditor
         private Rectangle _exitButton, _hideButton, _exportButton, _backgroundRect;
         private bool _isHidden;
         private int _screenWidth, _screenHeight;
+        private DataIO _dataIO;
 
         // Accessors
         public int CurrID { get; set; }
@@ -41,6 +42,7 @@ namespace LevelEditor
             _pixelTex = pixelTex;
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
+            _dataIO = new DataIO();
             textures.TryGetValue("ExitButton", out _exitTex);
             textures.TryGetValue("HideArrows", out _hideTex);
             textures.TryGetValue("ExportButton", out _exportTex);
@@ -87,7 +89,7 @@ namespace LevelEditor
             _hideButton.X = BackgroundRect.Left;
         }
 
-        public bool Update(Point mousePos)
+        public bool Update(Point mousePos, List<Tile> tList)
         {
             if (_hideButton.Contains(mousePos))
             {
@@ -105,6 +107,11 @@ namespace LevelEditor
                     _selectedTex = _textureLib.Values.ElementAt(i);
                     CurrID = i;
                 }
+            }
+
+            if (_exportButton.Contains(mousePos))
+            {
+                _dataIO.ExportLevel_CSV(tList);
             }
 
             return true;

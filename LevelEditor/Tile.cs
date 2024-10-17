@@ -18,6 +18,10 @@ namespace LevelEditor
         public Rectangle CollisionRect { get; set; }
         public bool Assigned { get; set; }
         public int ID { get; set; }
+        public Vector2 ActualPos
+        {
+            get { return _actualPos; }
+        }
 
         Rectangle _drawRect;
         Texture2D _tex;
