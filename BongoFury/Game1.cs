@@ -22,9 +22,9 @@ namespace BongoFury
     /// </summary>
     public enum ControllerMode
     {             
-        OnePlayer,
-        TwoPlayer, 
-        PVP
+        OnePlayer,      // single player controls, invert bongo buttons on hit
+        TwoPlayer,      // two players control one character, switch controls when hit
+        PVP             // each player controls a character, single player controls x2
     }                         
 
     public class Game1 : Game
@@ -44,6 +44,8 @@ namespace BongoFury
         private Dictionary<string, Texture2D> _textureLibrary;
         private Dictionary<string, Texture2D> _menuTextureLibrary;
         private Texture2D singlePixTex;
+
+        private StartMenu startMenu;
 
         public Game1()
         {
@@ -72,44 +74,42 @@ namespace BongoFury
 
             // load general textures
             //debugFont = Content.Load<SpriteFont>("DebugFont");
-            singlePixTex = Content.Load<Texture2D>("Textures/SinglePix");
+            //singlePixTex = Content.Load<Texture2D>("Textures/SinglePix");
+
             _textureLibrary.Add("BasicBlock", Content.Load<Texture2D>("Textures/Tiles/BasicBlockTex"));
             _textureLibrary.Add("HeavyBlock", Content.Load<Texture2D>("Textures/Tiles/HeavyBlockTex"));
             _textureLibrary.Add("BrickBlock", Content.Load<Texture2D>("Textures/Tiles/BrickBlockTex"));
             _textureLibrary.Add("CrackBlock", Content.Load<Texture2D>("Textures/Tiles/CrackedBrickTex"));
             _textureLibrary.Add("SpikeBlock", Content.Load<Texture2D>("Textures/Tiles/SpikeTex"));
 
-            // load main menu textures when entering main menu state
-            if (currentGameState == GameStates.MainMenu) 
-            {
-                _menuTextureLibrary.Add("AdventureText", Content.Load<Texture2D>("Textures/MainMenu/adventure"));
-                _menuTextureLibrary.Add("AdventureEdgeText", Content.Load<Texture2D>("Textures/MainMenu/adventure-edge"));
-                _menuTextureLibrary.Add("ArcadeText", Content.Load<Texture2D>("Textures/MainMenu/arcade"));
-                _menuTextureLibrary.Add("ArcadeEdgeText", Content.Load<Texture2D>("Textures/MainMenu/arcade-edge"));
-                _menuTextureLibrary.Add("QuitText", Content.Load<Texture2D>("Textures/MainMenu/quit"));
-                _menuTextureLibrary.Add("QuitEdgeText", Content.Load<Texture2D>("Textures/MainMenu/quit-edge"));
-                _menuTextureLibrary.Add("MenuBox", Content.Load<Texture2D>("Textures/MainMenu/menu"));
-                _menuTextureLibrary.Add("TreeLine", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("SunBase", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("SunCore", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("SunRingsIn", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("SunRingsOut", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("SunBeams", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterB", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterF", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterG", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterN", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterO", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterR", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterU", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-                _menuTextureLibrary.Add("LetterY", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
-            }
+            _menuTextureLibrary.Add("AdventureText", Content.Load<Texture2D>("Textures/MainMenu/adventure"));
+            _menuTextureLibrary.Add("AdventureEdgeText", Content.Load<Texture2D>("Textures/MainMenu/adventure-edge"));
+            _menuTextureLibrary.Add("ArcadeText", Content.Load<Texture2D>("Textures/MainMenu/arcade"));
+            _menuTextureLibrary.Add("ArcadeEdgeText", Content.Load<Texture2D>("Textures/MainMenu/arcade-edge"));
+            _menuTextureLibrary.Add("QuitText", Content.Load<Texture2D>("Textures/MainMenu/quit"));
+            _menuTextureLibrary.Add("QuitEdgeText", Content.Load<Texture2D>("Textures/MainMenu/quit-edge"));
+            _menuTextureLibrary.Add("MenuBox", Content.Load<Texture2D>("Textures/MainMenu/menu"));
+            _menuTextureLibrary.Add("TreeLine", Content.Load<Texture2D>("Textures/MainMenu/TreeLine"));
+            _menuTextureLibrary.Add("SunBase", Content.Load<Texture2D>("Textures/MainMenu/SunBase"));
+            _menuTextureLibrary.Add("SunCore", Content.Load<Texture2D>("Textures/MainMenu/SunCore"));
+            _menuTextureLibrary.Add("SunRingsIn", Content.Load<Texture2D>("Textures/MainMenu/SunInnerRings"));
+            _menuTextureLibrary.Add("SunRingsOut", Content.Load<Texture2D>("Textures/MainMenu/SunOuterRings"));
+            _menuTextureLibrary.Add("SunBeams", Content.Load<Texture2D>("Textures/MainMenu/SunBeams"));
+            _menuTextureLibrary.Add("LetterB", Content.Load<Texture2D>("Textures/MainMenu/b"));
+            _menuTextureLibrary.Add("LetterF", Content.Load<Texture2D>("Textures/MainMenu/f"));
+            _menuTextureLibrary.Add("LetterG", Content.Load<Texture2D>("Textures/MainMenu/g"));
+            _menuTextureLibrary.Add("LetterN", Content.Load<Texture2D>("Textures/MainMenu/n"));
+            _menuTextureLibrary.Add("LetterO", Content.Load<Texture2D>("Textures/MainMenu/o"));
+            _menuTextureLibrary.Add("LetterR", Content.Load<Texture2D>("Textures/MainMenu/r"));
+            _menuTextureLibrary.Add("LetterU", Content.Load<Texture2D>("Textures/MainMenu/u"));
+            _menuTextureLibrary.Add("LetterY", Content.Load<Texture2D>("Textures/MainMenu/y"));
+            _menuTextureLibrary.Add("Selecta", Content.Load<Texture2D>("Textures/MainMenu/selecta"));
 
             // load specifics
             switch (currentGameState) 
             {
                 case GameStates.MainMenu:
-
+                    startMenu = new StartMenu(_menuTextureLibrary);
                     break;
                 case GameStates.Adventure:
 
@@ -135,6 +135,8 @@ namespace BongoFury
             // update camera
             _camera.Update();
 
+            startMenu.Update();
+
             base.Update(gameTime);
         }
 
@@ -144,7 +146,7 @@ namespace BongoFury
 
             // world spritebatch
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
-
+            startMenu.Draw(_spriteBatch);
             _spriteBatch.End();
 
 
