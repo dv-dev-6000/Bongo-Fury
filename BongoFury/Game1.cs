@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -43,9 +44,10 @@ namespace BongoFury
         private Camera _camera;
         private Dictionary<string, Texture2D> _textureLibrary;
         private Dictionary<string, Texture2D> _menuTextureLibrary;
+        private Dictionary<string, SoundEffect> _soundLibrary;
         private Texture2D singlePixTex;
 
-        private StartMenu startMenu;
+        private StartMenu _startMenu;
 
         public Game1()
         {
@@ -63,6 +65,7 @@ namespace BongoFury
         {
             _textureLibrary = new Dictionary<string, Texture2D>();
             _menuTextureLibrary = new Dictionary<string, Texture2D>();
+            _soundLibrary = new Dictionary<string, SoundEffect>();
             _camera = new Camera();
 
             base.Initialize();
@@ -105,11 +108,17 @@ namespace BongoFury
             _menuTextureLibrary.Add("LetterY", Content.Load<Texture2D>("Textures/MainMenu/y"));
             _menuTextureLibrary.Add("Selecta", Content.Load<Texture2D>("Textures/MainMenu/selecta"));
 
+            // Load Sounds 
+            _soundLibrary.Add("BongoHit1", Content.Load<SoundEffect>("Sounds/bongoHit-1"));
+            _soundLibrary.Add("BongoHit2", Content.Load<SoundEffect>("Sounds/bongoHit-2"));
+            _soundLibrary.Add("BongoHit3", Content.Load<SoundEffect>("Sounds/bongoHit-3"));
+            _soundLibrary.Add("StompCrash", Content.Load<SoundEffect>("Sounds/StompCrash"));
+
             // load specifics
             switch (currentGameState) 
             {
                 case GameStates.MainMenu:
-                    startMenu = new StartMenu(_menuTextureLibrary);
+                    _startMenu = new StartMenu(_menuTextureLibrary, _soundLibrary);
                     break;
                 case GameStates.Adventure:
 
@@ -131,28 +140,40 @@ namespace BongoFury
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            
+            // update controllers
+            kbState = Keyboard.GetState();                  
+            curr_pad = GamePad.GetState(PlayerIndex.One);  
+            curr_Pad2 = GamePad.GetState(PlayerIndex.Two); 
+
 
             // update camera
             _camera.Update();
+            // update menu
+            _startMenu.Update(curr_pad, old_Pad);
 
-            startMenu.Update();
+
+            // update old controller variables for edge detection 
+            kbState_Old = kbState;
+            old_Pad = curr_pad;   
+            old_Pad2 = curr_Pad2; 
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.DarkCyan);
 
             // world spritebatch
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
-            startMenu.Draw(_spriteBatch);
+            
             _spriteBatch.End();
 
 
             // UI Spritebatch
             _spriteBatch.Begin();
-            
+            _startMenu.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,18 @@ namespace BongoFury
         private Texture2D _arcade, _arcadeEdge, _adv, _advEdge, _quit, _quitEdge, _menuBox, _selecta;
         private Texture2D _foreground;
 
-        public StartMenu(Dictionary<string, Texture2D> menuTextures) 
+        private SoundEffect bHit1, bHit2, bHit3;
+
+        public StartMenu(Dictionary<string, Texture2D> menuTextures, Dictionary<string, SoundEffect> sounds) 
         {
             AssignTextures(menuTextures);
             FillLetterList();
             _sun = new SunClass(_sunBase, _sunCore, _sunRingIn, _sunRingOut, _sunBeams, new Vector2(1500, 400));
             _selectBox = new SelectionBoxClass(_selecta, _menuBox, _arcade, _adv, _quit, _quit, new Vector2(360, 820), false);
+
+            sounds.TryGetValue("BongoHit1", out bHit1);
+            sounds.TryGetValue("BongoHit2", out bHit2);
+            sounds.TryGetValue("BongoHit3", out bHit3);
         }
 
         private void AssignTextures(Dictionary<string, Texture2D> menuTextures)
@@ -77,11 +84,11 @@ namespace BongoFury
             _letterList.Add(new LetterBounceClass(_y, new Vector2(550, -1800), 2));
         }
 
-        public void Update()
+        public void Update(GamePadState currPad, GamePadState oldPad)
         {
             _sun.UpdateMe();
-            //letterList.ForEach(letter => letter.UpdateMe(bHit1, bHit2, bHit3, RNG));
-            //selectBoxList.ForEach(box => box.UpdateMe(old_Pad, curr_pad, bHit1, bHit2, bHit3));
+            _letterList.ForEach(letter => letter.UpdateMe(bHit1, bHit2, bHit3, Game1.RNG));
+            _selectBox.UpdateMe(oldPad, currPad, bHit1, bHit2, bHit3);
         }
 
         public void Draw(SpriteBatch sb)

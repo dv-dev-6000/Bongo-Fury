@@ -13,6 +13,30 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Sounds/bongoHit-1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/bongoHit-1.wav
+
+#begin Sounds/bongoHit-2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/bongoHit-2.wav
+
+#begin Sounds/bongoHit-3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/bongoHit-3.wav
+
+#begin Sounds/StompCrash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/StompCrash.wav
+
 #begin Textures/MainMenu/adventure-edge.png
 /importer:TextureImporter
 /processor:TextureProcessor
