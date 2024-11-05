@@ -8,7 +8,7 @@ The repo contains a custom-made level editor dev tool, this allows for quick and
 * scrolling camera with adjustable zoom
 * collapsable user interface toolbar
 * variable sized level grid
-* up to 12 placeable tile types
+* up to 12 placeable tile types (8 Terrain Tiles & 4 Markers)
 * toggle for grid visibility
 * toggle for paint mode (click and drag for multiple tile placement)
 * export to CSV function
