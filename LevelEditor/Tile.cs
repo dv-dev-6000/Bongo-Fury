@@ -12,6 +12,9 @@ using System.Linq.Expressions;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// Class which defines the attributesd of a tile
+    /// </summary>
     public class Tile
     {
         // Vars
@@ -23,11 +26,10 @@ namespace LevelEditor
             get { return _actualPos; }
         }
 
-        Rectangle _drawRect;
-        Texture2D _tex;
-        //Vector2 _gridPos;
-        Vector2 _actualPos;
-        Color _colour;
+        private Rectangle _drawRect;
+        private Texture2D _tex;
+        private Vector2 _actualPos;
+        private Color _colour;
 
         // Constructor
         public Tile(Texture2D tex, Vector2 position)
@@ -42,6 +44,11 @@ namespace LevelEditor
             _drawRect = new Rectangle((int)_actualPos.X + 1, (int)_actualPos.Y + 1, Game1.TILE_SIZE -2, Game1.TILE_SIZE -2);
         }
 
+        /// <summary>
+        /// A method to assign/reassign a tiles current type
+        /// </summary>
+        /// <param name="newTex"> the texture of the new tile type </param>
+        /// <param name="id"> the ID used of the new tile type </param>
         public void Assign(Texture2D newTex, int id)
         {
             _tex = newTex;

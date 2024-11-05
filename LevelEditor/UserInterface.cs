@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace LevelEditor
 {
+    /// <summary>
+    /// class defining the collapsable user interface 
+    /// </summary>
     public class UserInterface
     {
         // Vars
@@ -51,31 +54,38 @@ namespace LevelEditor
             ButtonSetUp();
         }
 
+        /// <summary>
+        /// Set up the position and size of the buttons within the user interface
+        /// </summary>
         private void ButtonSetUp()
         {
+            // set up the unique buttons
             tileButtons = new List<Rectangle>();
             _exitButton = new Rectangle(BackgroundRect.Center.X - 16, BackgroundRect.Bottom - 50, 32, 32 );
             _hideButton = new Rectangle(BackgroundRect.Left, BackgroundRect.Top, 32, 32);
             _exportButton = new Rectangle(BackgroundRect.Center.X - (_exportTex.Width / 2), BackgroundRect.Bottom - (100 + _exportTex.Height), _exportTex.Width, _exportTex.Height);
 
+            // set up the grid of tile selection buttons
             for (int i = 0; i < 4; i++) 
             {
                 tileButtons.Add(new Rectangle(BackgroundRect.Left + 25, (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
             }
-
             for (int i = 0; i < 4; i++)
             {
                 tileButtons.Add(new Rectangle(BackgroundRect.Left + 50 + Game1.TILE_SIZE, (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
             }
-
             for (int i = 0; i < 4; i++)
             {
                 tileButtons.Add(new Rectangle(BackgroundRect.Left + 75 + (Game1.TILE_SIZE*2), (BackgroundRect.Top + 300) + (i * 100), Game1.TILE_SIZE, Game1.TILE_SIZE));
             }
         }
 
+        /// <summary>
+        /// functionality for the hide/show ui button
+        /// </summary>
         private void HideButtonPressed()
         {
+            // sets the is hidden flag and repositions hide/show button position 
             if (!_isHidden)
             {
                 _backgroundRect.X = _screenWidth - 32;
@@ -89,17 +99,26 @@ namespace LevelEditor
             _hideButton.X = BackgroundRect.Left;
         }
 
+        /// <summary>
+        /// Handle UI interactions and button clicks
+        /// </summary>
+        /// <param name="mousePos"></param>
+        /// <param name="tList"></param>
+        /// <returns></returns>
         public bool Update(Point mousePos, List<Tile> tList)
         {
             if (_hideButton.Contains(mousePos))
             {
+                // show/hide the UI
                 HideButtonPressed();
             }
             else if (_exitButton.Contains(mousePos))
             {
+                // Exit Program
                 return false;
             }
 
+            // change the selected tile
             for (int i = 0; i < tileButtons.Count; i++)
             {
                 if (tileButtons[i].Contains(mousePos))
@@ -109,6 +128,7 @@ namespace LevelEditor
                 }
             }
 
+            // export level when clicked
             if (_exportButton.Contains(mousePos))
             {
                 _dataIO.ExportLevel_CSV(tList);
