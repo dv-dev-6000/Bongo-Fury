@@ -127,7 +127,7 @@ namespace BongoFury
         {
             Arcade,
             Adventure,
-            Tutorial,
+            Duel,
             Quit
         }
 
@@ -221,7 +221,7 @@ namespace BongoFury
                         selectaPos = pos2;
                         break;
 
-                    case OptionSelected.Tutorial:
+                    case OptionSelected.Duel:
 
                         sb.Draw(tutEdge, pos3, null, Color.White, 0, new Vector2(tutEdge.Width / 2, tutEdge.Height / 2), 1, SpriteEffects.None, 0);
                         selectaPos = pos3;
